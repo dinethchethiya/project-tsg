@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Compressor | Document Toolkit</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            --bg-cream: #f4f1ea;
+            --ink-black: #111111;
+            --accent-green: #e3fdc0;
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'IBM Plex Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--ink-black);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Nav Bar */
+        .top-nav {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover { opacity: 0.7; }
+
+        .workbench {
+            width: 100%;
+            max-width: 700px;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Centering Container */
+        .tool-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* This centers the upload zone vertically */
+            width: 100%;
+        }
+
+        header {
+            border-bottom: 3px solid var(--ink-black);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .title-area h1 {
+            font-family: var(--font-head);
+            margin: 0;
+            line-height: 0.9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title-small { font-size: clamp(1.2rem, 3vw, 1.8rem); letter-spacing: 1px; text-transform: lowercase; }
+        .title-big { font-size: clamp(2.5rem, 8vw, 4.5rem); letter-spacing: -0.02em; text-transform: uppercase; font-weight: 900; }
+        .title-area p { margin: 1rem 0 0 0; font-size: 0.85rem; opacity: 0.8; line-height: 1.4; }
+        
+        @keyframes fadeInMove {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--ink-black);
+            padding: 5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            animation: fadeInMove 0.4s ease forwards;
+        }
+
+        .upload-zone:hover {
+            background-color: var(--accent-green);
+            box-shadow: 6px 6px 0px var(--ink-black);
+            transform: translate(-2px, -2px);
+        }
+
+        #fileInput { display: none; }
+
+        .file-info {
+            display: none;
+            background: white;
+            border: 3px solid var(--ink-black);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 4px 4px 0px var(--ink-black);
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .compression-container { display: none; animation: fadeInMove 0.4s ease forwards; }
+
+        .retro-fieldset { border: 3px solid var(--ink-black); padding: 1.5rem; background: white; box-shadow: 4px 4px 0px var(--ink-black); }
+        .retro-fieldset legend { font-family: var(--font-head); font-size: 1.2rem; font-weight: 900; padding: 0 0.5rem; background: var(--bg-cream); border: 2px solid var(--ink-black); }
+
+        .btn {
+            background-color: var(--ink-black); color: var(--bg-cream); font-family: var(--font-body);
+            font-weight: 600; border: 2px solid var(--ink-black); padding: 1rem 2.5rem;
+            font-size: 1.1rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; width: 100%;
+            margin-top: 2rem;
+        }
+        .btn:hover { background-color: var(--accent-green); color: var(--ink-black); box-shadow: 4px 4px 0px var(--ink-black); transform: translate(-2px, -2px); }
+
+        /* Restored Original Footer Styling */
+        .copyright-footer { 
+            margin-top: 4rem; padding: 2rem 0; font-size: 0.75rem; color: #666; text-align: center; width: 100%; 
+            border-top: 1px dashed #ccc;
+        }
+        .attribution { font-size: 0.65rem; color: #888; margin-top: 0.5rem; line-height: 1.4; }
+
+        .loading-screen {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(244, 241, 234, 0.95); z-index: 2000; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .spinner { width: 50px; height: 50px; border: 5px solid #ccc; border-top-color: var(--ink-black); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="back-link">
+            <img src="logo.png" alt="Home" style="height: 40px; width: auto;">
+            <span style="font-family: var(--font-head); font-weight: bold; font-size: 1.2rem;">← Menu</span>
+        </a>
+    </nav>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="spinner"></div>
+        <p id="loadingText">Compressing File...</p>
+    </div>
+
+    <div class="workbench">
+        <header>
+            <div class="title-area">
+                <h1>
+                    <span class="title-small">pdf</span>
+                    <span class="title-big">Compressor</span>
+                </h1>
+                <p>Shrink PDFs locally in your browser. No server uploads, total privacy.</p>
+            </div>
+        </header>
+
+        <div class="tool-body">
+            <div class="upload-zone" id="uploadZone">
+                [ Drag & Drop a PDF file here, or click to browse ]
+            </div>
+            <input type="file" id="fileInput" accept="application/pdf">
+
+            <div class="file-info" id="fileInfo">
+                <span id="fileNameDisplay">filename.pdf</span>
+                <button style="background:transparent; border:none; text-decoration:underline; cursor:pointer;" id="resetBtn">[✕] Change</button>
+            </div>
+
+            <div class="compression-container" id="compressionContainer">
+                <fieldset class="retro-fieldset">
+                    <legend>Level</legend>
+                    <label style="display:block; margin-bottom:10px;"><input type="radio" name="compLevel" value="0.8" checked> Standard (80% Quality)</label>
+                    <label style="display:block; margin-bottom:10px;"><input type="radio" name="compLevel" value="0.5"> Aggressive (50% Quality)</label>
+                    <label style="display:block;"><input type="radio" name="compLevel" value="0.2"> Extreme (20% Quality)</label>
+                </fieldset>
+                <button id="compressBtn" class="btn">Compress PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="copyright-footer">
+        &copy; thatsupportguy 2026
+        <div class="attribution">
+            Built with open-source software: 
+            <a href="https://github.com/Hopding/pdf-lib" target="_blank" style="color:#666;">pdf-lib (MIT)</a>, 
+            <a href="https://github.com/mozilla/pdf.js" target="_blank" style="color:#666;">pdf.js (Apache 2.0)</a>.
+            Fonts by Google (OFL). Processed entirely client-side.
+        </div>
+    </footer>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const fileInput = document.getElementById('fileInput');
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInfo = document.getElementById('fileInfo');
+        const compressionContainer = document.getElementById('compressionContainer');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const compressBtn = document.getElementById('compressBtn');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const loadingText = document.getElementById('loadingText');
+
+        let currentFile = null;
+
+        uploadZone.onclick = () => fileInput.click();
+
+        fileInput.onchange = (e) => {
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
+        };
+
+        function handleFile(file) {
+            currentFile = file;
+            fileNameDisplay.innerText = file.name;
+            uploadZone.style.display = 'none';
+            fileInfo.style.display = 'flex';
+            compressionContainer.style.display = 'block';
+            // Stop vertical centering once the tool is active
+            document.querySelector('.tool-body').style.justifyContent = 'flex-start';
+        }
+
+        document.getElementById('resetBtn').onclick = () => {
+            location.reload();
+        };
+
+        compressBtn.onclick = async () => {
+            if (!currentFile) return;
+            const quality = parseFloat(document.querySelector('input[name="compLevel"]:checked').value);
+            loadingScreen.style.display = 'flex';
+            
+            try {
+                const arrayBuffer = await currentFile.arrayBuffer();
+                const pdfJsDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                const newPdfDoc = await PDFLib.PDFDocument.create();
+
+                for (let i = 1; i <= pdfJsDoc.numPages; i++) {
+                    loadingText.innerText = `Processing Page ${i}...`;
+                    const page = await pdfJsDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: 2.0 });
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(0,0,canvas.width, canvas.height);
+                    await page.render({ canvasContext: ctx, viewport }).promise;
+
+                    const imgData = canvas.toDataURL('image/jpeg', quality);
+                    const imgBytes = await fetch(imgData).then(res => res.arrayBuffer());
+                    const img = await newPdfDoc.embedJpg(imgBytes);
+                    
+                    const newPage = newPdfDoc.addPage([viewport.width, viewport.height]);
+                    newPage.drawImage(img, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+                }
+
+                const pdfBytes = await newPdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `compressed_${currentFile.name}`;
+                link.click();
+            } catch (err) {
+                alert("Error compressing PDF.");
+            } finally {
+                loadingScreen.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>

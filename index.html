@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Toolkit | thatsupportguy</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            --bg-cream: #f4f1ea;
+            --ink-black: #111111;
+            --accent-green: #e3fdc0;
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'IBM Plex Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--ink-black);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1; /* Pushes footer to bottom */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 2rem;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .logo {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            font-size: 3rem;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            margin-top: 0.75rem;
+        }
+
+        .tools-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            max-width: 1100px;
+        }
+
+        .tool-card {
+            background: transparent;
+            border: 2px solid var(--ink-black);
+            padding: 2.5rem 2rem;
+            text-decoration: none;
+            color: var(--ink-black);
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .tool-card:hover {
+            background: var(--accent-green);
+            transform: translateY(-8px);
+            box-shadow: 8px 8px 0px var(--ink-black);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-title {
+            font-family: var(--font-head);
+            font-size: 1.6rem;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .tool-desc {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        footer {
+            width: 100%;
+            padding: 3rem 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-heart {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <header class="header">
+            <img src="logo.png" alt="Logo" class="logo">
+            <h1>free Toolkit</h1>
+            <p class="subtitle">Quick. Private. Minimal.</p>
+            
+        </header>
+
+        <div class="tools-grid">
+            <a href="image-to-pdf.html" class="tool-card">
+                <div class="tool-icon">🖼️</div>
+                <h2 class="tool-title">Image to PDF</h2>
+                <p class="tool-desc">Compile JPG, PNG, or HEIC images into a single professional PDF.</p>
+            </a>
+
+            <a href="compressor.html" class="tool-card">
+                <div class="tool-icon">🗜️</div>
+                <h2 class="tool-title">PDF Compressor</h2>
+                <p class="tool-desc">Shrink heavy PDF files for easier emailing without losing readability.</p>
+            </a>
+
+            <a href="merger.html" class="tool-card">
+                <div class="tool-icon">📑</div>
+                <h2 class="tool-title">PDF Merger</h2>
+                <p class="tool-desc">Combine multiple files or reorder pages into a custom document.</p>
+            </a>
+        </div>
+
+        
+    </div>
+
+    <footer>
+        made with <span class="footer-heart">♥️</span><br>
+        &copy; thatsupportguy 2026
+    </footer>
+
+</body>
+</html>
