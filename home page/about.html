@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | thatsupportguy</title>
+    <meta name="description" content="About thatsupportguy and the browser-based document toolkit.">
+    <link rel="icon" type="image/png" href="../public/favicon.png">
+    <link rel="apple-touch-icon" href="../public/favicon.png">
+    <link rel="manifest" href="../public/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'granted',
+            security_storage: 'granted',
+            wait_for_update: 500
+        });
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        :root { --bg-cream:#f4f1ea; --ink-black:#111; --font-head:'Playfair Display', serif; --font-body:'IBM Plex Mono', monospace; }
+        body { margin:0; padding:2rem; min-height:100vh; display:flex; flex-direction:column; align-items:center; background:var(--bg-cream); color:var(--ink-black); font-family:var(--font-body); }
+        .top-nav, .page-shell, footer { width:100%; max-width:860px; }
+        .top-nav { margin-bottom:1.5rem; display:flex; align-items:center; }
+        .back-link { display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
+        .back-link:hover { opacity:.72; }
+        .page-shell { flex:1; }
+        header { border-bottom:3px solid var(--ink-black); padding-bottom:1.25rem; margin-bottom:1.5rem; }
+        h1, h2 { font-family:var(--font-head); margin:0; }
+        h1 { font-size:clamp(2.2rem, 5vw, 4rem); line-height:.95; }
+        .subtitle { margin:.85rem 0 0; max-width:62ch; line-height:1.6; }
+        .card { background:#fff; border:2px solid var(--ink-black); box-shadow:6px 6px 0 var(--ink-black); padding:1.5rem; margin-top:1rem; }
+        .card p, .card li { line-height:1.65; font-size:.95rem; }
+        .card ul { margin:.75rem 0 0; padding-left:1.2rem; }
+        .channel-link { display:inline-block; margin-top:.8rem; color:var(--ink-black); font-weight:600; }
+        .footer-links { display:flex; flex-wrap:wrap; justify-content:center; gap:.75rem 1rem; margin:1rem 0 0; font-size:.72rem; }
+        .footer-links a { color:#666; text-decoration:none; }
+        .footer-links a:hover { text-decoration:underline; }
+        .copyright-footer { margin-top:2rem; padding-top:1rem; font-size:.75rem; color:#666; text-align:center; width:100%; border-top:1px dashed #ccc; }
+        .attribution { font-size:.65rem; color:#888; margin-top:.5rem; line-height:1.4; }
+        @media (max-width:640px) { body { padding:1rem; } .card { box-shadow:4px 4px 0 var(--ink-black); } }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="index.html" class="back-link">
+            <img src="logo.png" alt="Home" style="height: 40px; width: auto;">
+            <span style="font-family: var(--font-head); font-weight: bold; font-size: 1.2rem;">← Menu</span>
+        </a>
+    </nav>
+
+    <main class="page-shell">
+        <header>
+            <h1>About</h1>
+            <p class="subtitle">A compact toolkit for simple document tasks, built to stay fast and mostly client-side.</p>
+        </header>
+
+        <section class="card">
+            <h2>What this site is</h2>
+            <p>thatsupportguy.com is a set of utility pages for everyday workflows like merging PDFs, compressing PDFs, converting images to PDF, and generating QR codes.</p>
+        </section>
+
+        <section class="card">
+            <h2>Why it exists</h2>
+            <p>The focus is on quick workflows, low friction, and keeping file handling in the browser whenever possible.</p>
+            <p><a class="channel-link" href="https://www.youtube.com/@thatsupportguy" target="_blank" rel="noopener noreferrer">Visit the thatsupportguy YouTube channel</a></p>
+        </section>
+
+        <section class="card">
+            <h2>What to expect</h2>
+            <ul>
+                <li>No account required for the core tools.</li>
+                <li>Simple navigation back to the tool hub.</li>
+                <li>Public pages for privacy, terms, and contact.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="copyright-footer">
+        &copy; thatsupportguy 2026
+        <div class="footer-links" aria-label="Site links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="attribution">Built for quick browser-based document tasks.</div>
+    </footer>
+    <script src="consent.js" defer></script>
+</body>
+</html>
