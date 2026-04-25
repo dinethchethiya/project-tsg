@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Compressor | Document Toolkit</title>
+    <link rel="icon" type="image/png" href="../public/favicon.png">
+    <link rel="apple-touch-icon" href="../public/favicon.png">
+    <link rel="manifest" href="../public/site.webmanifest">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'granted',
+            security_storage: 'granted',
+            wait_for_update: 500
+        });
+    </script>
 
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -142,6 +158,24 @@
             margin-top: 4rem; padding: 2rem 0; font-size: 0.75rem; color: #666; text-align: center; width: 100%; 
             border-top: 1px dashed #ccc;
         }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem 1rem;
+            margin: 1rem 0 0;
+            font-size: 0.72rem;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
         .attribution { font-size: 0.65rem; color: #888; margin-top: 0.5rem; line-height: 1.4; }
 
         .loading-screen {
@@ -150,6 +184,19 @@
         }
         .spinner { width: 50px; height: 50px; border: 5px solid #ccc; border-top-color: var(--ink-black); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .tool-body { justify-content: flex-start; }
+            .upload-zone { padding: 2rem 1rem; font-size: 1rem; }
+            .file-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            .btn { padding: 0.9rem 1.25rem; }
+            .copyright-footer { margin-top: 2rem; }
+        }
     </style>
 </head>
 <body>
@@ -202,6 +249,12 @@
 
     <footer class="copyright-footer">
         &copy; thatsupportguy 2026
+        <div class="footer-links" aria-label="Site links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
         <div class="attribution">
             Built with open-source software: 
             <a href="https://github.com/Hopding/pdf-lib" target="_blank" style="color:#666;">pdf-lib (MIT)</a>, 
@@ -288,5 +341,6 @@
             }
         };
     </script>
+    <script src="consent.js" defer></script>
 </body>
 </html>

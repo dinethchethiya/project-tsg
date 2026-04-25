@@ -3,11 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Toolkit | thatsupportguy</title>
+    <title>thatsupportguy | Software How-To Toolkit</title>
+    <meta name="description" content="thatsupportguy shares software how-to tutorials on YouTube and offers free browser-based tools for PDF, image, and QR tasks.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="thatsupportguy | Software How-To Toolkit">
+    <meta property="og:description" content="Software how-to tutorials plus free browser-based productivity tools.">
+    <meta property="og:url" content="https://thatsupportguy.com/home%20page/index.html">
+    <meta property="og:image" content="https://thatsupportguy.com/home%20page/logo.png">
+    <meta property="og:site_name" content="thatsupportguy">
+    <link rel="icon" type="image/png" href="../public/favicon.png">
+    <link rel="apple-touch-icon" href="../public/favicon.png">
+    <link rel="manifest" href="../public/site.webmanifest">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'granted',
+            security_storage: 'granted',
+            wait_for_update: 500
+        });
+    </script>
 
     <style>
         * { box-sizing: border-box; }
@@ -16,6 +39,7 @@
             --bg-cream: #f4f1ea;
             --ink-black: #111111;
             --accent-green: #e3fdc0;
+            --white: #ffffff;
             --font-head: 'Playfair Display', serif;
             --font-body: 'IBM Plex Mono', monospace;
         }
@@ -25,7 +49,7 @@
             color: var(--ink-black);
             font-family: var(--font-body);
             margin: 0;
-            padding: 0;
+            padding: 0 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -33,136 +57,459 @@
         }
 
         .main-content {
-            flex: 1; /* Pushes footer to bottom */
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 4rem 2rem;
+            gap: 2rem;
+            padding: 3rem 2rem;
             width: 100%;
+            max-width: 1120px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 4rem;
+        .hero {
+            width: 100%;
+            border: 3px solid var(--ink-black);
+            background: linear-gradient(165deg, var(--white) 0%, #fdf9ef 70%, #f2f8e7 100%);
+            box-shadow: 10px 10px 0 var(--ink-black);
+            padding: 2.25rem;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .brand-lockup {
+            display: flex;
+            align-items: flex-start;
+            gap: clamp(0.75rem, 2vw, 1.2rem);
         }
 
         .logo {
-            max-width: 100px;
-            height: auto;
-            margin-bottom: 1.5rem;
+            width: clamp(56px, 8vw, 72px);
+            height: clamp(56px, 8vw, 72px);
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .channel-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+            border: 2px solid var(--ink-black);
+            padding: 0.25rem 0.5rem;
+            background: var(--white);
+            display: inline-block;
+            margin-bottom: 0.8rem;
         }
 
         h1 {
             font-family: var(--font-head);
-            font-size: 3rem;
+            font-size: clamp(2.2rem, 5vw, 4rem);
             margin: 0;
-            letter-spacing: -1px;
+            letter-spacing: -0.02em;
+            line-height: 0.95;
         }
 
-        .subtitle {
-            font-size: 0.8rem;
+        .hero-copy {
+            margin: 1rem 0 0;
+            max-width: 60ch;
+            line-height: 1.65;
+            font-size: 0.9rem;
+        }
+
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.2rem;
+        }
+
+        .cta-btn {
+            border: 2px solid var(--ink-black);
+            text-decoration: none;
+            color: var(--ink-black);
+            font-size: 0.78rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.6;
-            margin-top: 0.75rem;
+            letter-spacing: 0.06em;
+            padding: 0.65rem 0.9rem;
+            font-weight: 600;
+            background: var(--white);
+            transition: all 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent-green);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--ink-black);
+        }
+
+        .hero-note {
+            border: 2px dashed var(--ink-black);
+            background: #fff;
+            padding: 1rem;
+        }
+
+        .hero-note h2 {
+            margin: 0 0 0.6rem;
+            font-size: 1.2rem;
+            font-family: var(--font-head);
+        }
+
+        .hero-note p {
+            margin: 0;
+            line-height: 1.6;
+            font-size: 0.85rem;
+        }
+
+        .hero-note ul {
+            margin: 0.8rem 0 0;
+            padding-left: 1.1rem;
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .section {
+            width: 100%;
+        }
+
+        .toolkit-section {
+            padding: 1.25rem 0 1.75rem;
+        }
+
+        .section-panel {
+            border: 3px solid var(--ink-black);
+            background: linear-gradient(165deg, var(--white) 0%, #fdf9ef 70%, #f2f8e7 100%);
+            box-shadow: 10px 10px 0 var(--ink-black);
+            padding: 2.25rem;
+        }
+
+        .section-head {
+            border-bottom: 2px solid var(--ink-black);
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .section-kicker {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin: 0;
+            opacity: 0.75;
+        }
+
+        .section-title {
+            margin: 0.4rem 0 0;
+            font-size: clamp(1.4rem, 3vw, 2.1rem);
+            line-height: 1;
+            font-family: var(--font-head);
         }
 
         .tools-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
         }
 
         .tool-card {
-            background: transparent;
+            background: var(--white);
             border: 2px solid var(--ink-black);
-            padding: 2.5rem 2rem;
+            padding: 1.35rem 1.1rem;
             text-decoration: none;
             color: var(--ink-black);
-            width: 320px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s ease;
         }
 
         .tool-card:hover {
             background: var(--accent-green);
-            transform: translateY(-8px);
-            box-shadow: 8px 8px 0px var(--ink-black);
+            transform: translateY(-4px);
+            box-shadow: 6px 6px 0 var(--ink-black);
         }
 
         .tool-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.55rem;
         }
 
         .tool-title {
             font-family: var(--font-head);
-            font-size: 1.6rem;
-            margin: 0 0 0.75rem 0;
+            font-size: 1.45rem;
+            margin: 0 0 0.5rem;
         }
 
         .tool-desc {
             font-size: 0.85rem;
             line-height: 1.6;
-            opacity: 0.8;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .content-card {
+            background: var(--white);
+            border: 2px solid var(--ink-black);
+            padding: 1.1rem;
+        }
+
+        .content-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .content-card h3 {
+            margin: 0 0 0.6rem;
+            font-family: var(--font-head);
+            font-size: 1.2rem;
+        }
+
+        .content-card p,
+        .content-card li {
+            margin: 0;
+            font-size: 0.84rem;
+            line-height: 1.65;
+        }
+
+        .content-card ul {
+            margin: 0;
+            padding-left: 1.1rem;
+        }
+
+        .video-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .video-item {
+            border: 2px solid var(--ink-black);
+            background: var(--white);
+            padding: 0.9rem;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .video-item:hover {
+            background: var(--accent-green);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--ink-black);
+        }
+
+        .video-title {
+            font-weight: 600;
+            margin: 0 0 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .video-meta {
+            font-size: 0.74rem;
+            opacity: 0.85;
+            margin: 0;
         }
 
         footer {
             width: 100%;
-            padding: 3rem 1rem;
+            padding: 2rem 1rem;
             text-align: center;
-            font-size: 0.8rem;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            margin-top: 4rem;
+            font-size: 0.78rem;
+            border-top: 1px dashed rgba(0, 0, 0, 0.3);
+            margin-top: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem 1rem;
+            margin: 1rem 0 0;
+            font-size: 0.72rem;
+        }
+
+        .footer-links a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
         }
 
         .footer-heart {
             color: #e74c3c;
+        }
+
+        @media (max-width: 820px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            body {
+                font-size: 15px;
+                padding: 0 0.75rem;
+            }
+
+            .main-content {
+                padding: 1rem 0;
+            }
+
+            .hero {
+                padding: 1.2rem;
+                box-shadow: 6px 6px 0 var(--ink-black);
+            }
+
+            .section-panel {
+                padding: 1.2rem;
+                box-shadow: 6px 6px 0 var(--ink-black);
+            }
+
+            .toolkit-section {
+                padding: 0.85rem 0 1.35rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="main-content">
-        <header class="header">
-            <img src="logo.png" alt="Logo" class="logo">
-            <h1>free Toolkit</h1>
-            <p class="subtitle">Quick. Private. Minimal.</p>
-            
+        <header class="hero">
+            <div>
+                <div class="hero-brand">
+                    <p class="channel-tag">YouTube software how-to channel</p>
+                    <div class="brand-lockup">
+                        <img src="../hd-icon.png" alt="thatsupportguy logo" class="logo">
+                        <h1>thatsupportguy Toolkit</h1>
+                    </div>
+                </div>
+                <p class="hero-copy">This site is the companion toolkit for the thatsupportguy YouTube channel. Every tool runs locally in your browser so you can follow tutorials, complete tasks faster, and keep files private while learning practical software workflows.</p>
+                <div class="cta-row" aria-label="Primary links">
+                    <a href="https://www.youtube.com/@thatsupportguy" target="_blank" rel="noopener noreferrer" class="cta-btn">Visit YouTube Channel</a>
+                    <a href="about.html" class="cta-btn">About This Project</a>
+                    <a href="contact.html" class="cta-btn">Contact</a>
+                </div>
+            </div>
+
+            <aside class="hero-note" aria-label="Site principles">
+                <h2>How This Site Works</h2>
+                <p>The tools are built for common office and creator workflows demonstrated on the channel.</p>
+                <ul>
+                    <li>No account required.</li>
+                    <li>Files are processed in the browser.</li>
+                    <li>Focused on practical, repeatable software tasks.</li>
+                </ul>
+            </aside>
         </header>
 
-        <div class="tools-grid">
-            <a href="image-to-pdf.html" class="tool-card">
-                <div class="tool-icon">🖼️</div>
-                <h2 class="tool-title">Image to PDF</h2>
-                <p class="tool-desc">Compile JPG, PNG, or HEIC images into a single professional PDF.</p>
-            </a>
+        <section class="section toolkit-section" aria-label="Free tools">
+            <div class="section-head">
+                <p class="section-kicker">Free browser tools</p>
+                <h2 class="section-title">Use The Toolkit</h2>
+            </div>
 
-            <a href="compressor.html" class="tool-card">
-                <div class="tool-icon">🗜️</div>
-                <h2 class="tool-title">PDF Compressor</h2>
-                <p class="tool-desc">Shrink heavy PDF files for easier emailing without losing readability.</p>
-            </a>
+            <div class="tools-grid">
+                <a href="image-to-pdf.html" class="tool-card">
+                    <div class="tool-icon">🖼️</div>
+                    <h3 class="tool-title">Image to PDF</h3>
+                    <p class="tool-desc">Compile JPG, PNG, or HEIC images into a single professional PDF.</p>
+                </a>
 
-            <a href="merger.html" class="tool-card">
-                <div class="tool-icon">📑</div>
-                <h2 class="tool-title">PDF Merger</h2>
-                <p class="tool-desc">Combine multiple files or reorder pages into a custom document.</p>
-            </a>
-        </div>
+                <a href="compressor.html" class="tool-card">
+                    <div class="tool-icon">🗜️</div>
+                    <h3 class="tool-title">PDF Compressor</h3>
+                    <p class="tool-desc">Shrink heavy PDF files for easier emailing without losing readability.</p>
+                </a>
 
-        
+                <a href="merger.html" class="tool-card">
+                    <div class="tool-icon">📑</div>
+                    <h3 class="tool-title">PDF Merger</h3>
+                    <p class="tool-desc">Combine multiple files or reorder pages into a custom document.</p>
+                </a>
+
+                <a href="qr-generator.html" class="tool-card">
+                    <div class="tool-icon">🔳</div>
+                    <h3 class="tool-title">QR Generator</h3>
+                    <p class="tool-desc">Turn any URL or text into a downloadable QR code instantly.</p>
+                </a>
+            </div>
+        </section>
+
+        <section class="section section-panel" aria-label="Channel and learning content">
+            <div class="section-head">
+                <p class="section-kicker">Original content</p>
+                <h2 class="section-title">From The Channel</h2>
+            </div>
+
+            <div class="content-grid">
+                <article class="content-card full-width">
+                    <h3>Channel mission</h3>
+                    <p>thatsupportguy publishes software how-to videos focused on practical results. This toolkit extends those tutorials with free utilities you can use immediately while following along. The goal is to make everyday software tasks easier for students, freelancers, and office users through straightforward walkthroughs and reusable tools.</p>
+                </article>
+            </div>
+
+            <div class="video-list" style="margin-top:1rem;">
+                <a class="video-item" href="https://www.youtube.com/@thatsupportguy" target="_blank" rel="noopener noreferrer">
+                    <p class="video-title">Watch: step-by-step document workflow tutorials</p>
+                    <p class="video-meta">YouTube channel • thatsupportguy</p>
+                </a>
+                <a class="video-item" href="about.html">
+                    <p class="video-title">Read: about this toolkit and privacy-first workflow</p>
+                    <p class="video-meta">Site guide • about this project</p>
+                </a>
+                <a class="video-item" href="contact.html">
+                    <p class="video-title">Send a request for a future tutorial topic</p>
+                    <p class="video-meta">Community feedback • contact page</p>
+                </a>
+            </div>
+        </section>
+
     </div>
 
     <footer>
         made with <span class="footer-heart">♥️</span><br>
         &copy; thatsupportguy 2026
+        <div class="footer-links" aria-label="Site links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
     </footer>
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "thatsupportguy",
+            "url": "https://thatsupportguy.com/",
+            "logo": "https://thatsupportguy.com/home%20page/logo.png",
+            "sameAs": [
+                "https://www.youtube.com/@thatsupportguy"
+            ]
+        }
+        </script>
+
+        <script src="consent.js" defer></script>
 
 </body>
 </html>
