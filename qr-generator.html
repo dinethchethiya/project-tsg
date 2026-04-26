@@ -11,13 +11,14 @@
     <meta property="og:url" content="https://thatsupportguy.com/qr-generator.html">
     <meta property="og:image" content="https://thatsupportguy.com/logo.png">
     <meta property="og:site_name" content="thatsupportguy">
-    <link rel="icon" type="image/png" href="public/favicon.png">
-    <link rel="apple-touch-icon" href="public/favicon.png">
-    <link rel="manifest" href="public/site.webmanifest">
+    <link rel="icon" type="image/png" href="/public/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="manifest" href="/public/site.webmanifest">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7WZEKD6C9H"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){ dataLayer.push(arguments); }
@@ -30,6 +31,8 @@
             security_storage: 'granted',
             wait_for_update: 500
         });
+        gtag('js', new Date());
+        gtag('config', 'G-7WZEKD6C9H');
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -126,6 +129,36 @@
             gap: 1.5rem;
         }
 
+        .field-group {
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .preset-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .size-preset {
+            border: 2px solid var(--ink-black);
+            background: #fff;
+            color: var(--ink-black);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .size-preset:hover,
+        .size-preset.is-active {
+            background: var(--accent-green);
+            box-shadow: 3px 3px 0px var(--ink-black);
+            transform: translate(-1px, -1px);
+        }
+
         .input-label {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -149,6 +182,13 @@
             outline: none;
             background: #fcfff5;
             box-shadow: 4px 4px 0px var(--accent-green);
+        }
+
+        .field-hint {
+            margin: 0;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            opacity: 0.75;
         }
 
         .btn {
@@ -345,8 +385,22 @@
 
         <main class="tool-layout">
             <section class="tool-body" aria-label="QR generator controls">
-                <label class="input-label" for="qrInput">Content</label>
-                <input id="qrInput" class="text-input" type="text" placeholder="Enter a URL or text..." autocomplete="off">
+                <div class="field-group">
+                    <label class="input-label" for="qrInput">Content</label>
+                    <input id="qrInput" class="text-input" type="text" placeholder="Enter a URL or text..." autocomplete="off">
+                </div>
+
+                <div class="field-group" style="margin-top: 1rem;">
+                    <label class="input-label" for="qrSize">Output size (px)</label>
+                    <div class="preset-row" aria-label="Common output size presets">
+                        <button class="size-preset" type="button" data-size="512">512</button>
+                        <button class="size-preset" type="button" data-size="1024">1024</button>
+                        <button class="size-preset" type="button" data-size="2048">2048</button>
+                        <button class="size-preset" type="button" data-size="5000">5000</button>
+                    </div>
+                    <input id="qrSize" class="text-input" type="number" min="128" max="8192" step="64" value="512" inputmode="numeric">
+                    <p class="field-hint">Larger sizes create sharper downloads for banners, posters, and print use. Very large exports may take longer to render.</p>
+                </div>
 
                 <button id="generateBtn" class="btn" type="button">Generate QR Code</button>
                 <button id="clearBtn" class="btn btn-secondary" type="button">Clear / Reset</button>
@@ -421,6 +475,8 @@
 
     <script>
         const qrInput = document.getElementById('qrInput');
+        const qrSizeInput = document.getElementById('qrSize');
+        const sizePresetButtons = Array.from(document.querySelectorAll('.size-preset'));
         const generateBtn = document.getElementById('generateBtn');
         const clearBtn = document.getElementById('clearBtn');
         const downloadBtn = document.getElementById('downloadBtn');
@@ -438,6 +494,32 @@
             errorText.textContent = '';
         }
 
+        function getOutputSize() {
+            const size = Number.parseInt(qrSizeInput.value, 10);
+
+            if (!Number.isFinite(size)) {
+                return null;
+            }
+
+            return Math.min(8192, Math.max(128, size));
+        }
+
+        function setActivePreset(size) {
+            sizePresetButtons.forEach((button) => {
+                button.classList.toggle('is-active', button.dataset.size === String(size));
+            });
+        }
+
+        function syncPresetState() {
+            const size = Number.parseInt(qrSizeInput.value, 10);
+            if (Number.isFinite(size)) {
+                setActivePreset(size);
+                return;
+            }
+
+            setActivePreset('');
+        }
+
         function resetQR() {
             qrContainer.innerHTML = '';
             qrCodeInstance = null;
@@ -448,10 +530,17 @@
 
         function generateQRCode() {
             const value = qrInput.value.trim();
+            const outputSize = getOutputSize();
 
             if (!value) {
                 resetQR();
                 showError('Please enter text or a URL before generating.');
+                return;
+            }
+
+            if (!outputSize) {
+                resetQR();
+                showError('Enter a valid output size between 128 and 8192 pixels.');
                 return;
             }
 
@@ -460,8 +549,8 @@
 
             qrCodeInstance = new QRCode(qrContainer, {
                 text: value,
-                width: 256,
-                height: 256,
+                width: outputSize,
+                height: outputSize,
                 colorDark: '#111111',
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
@@ -496,11 +585,25 @@
         generateBtn.addEventListener('click', generateQRCode);
         downloadBtn.addEventListener('click', downloadPNG);
 
+        sizePresetButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                qrSizeInput.value = button.dataset.size;
+                setActivePreset(button.dataset.size);
+                qrSizeInput.focus();
+            });
+        });
+
+        qrSizeInput.addEventListener('input', syncPresetState);
+
         clearBtn.addEventListener('click', () => {
             qrInput.value = '';
             resetQR();
             qrInput.focus();
+            qrSizeInput.value = '512';
+            setActivePreset('512');
         });
+
+        setActivePreset('512');
 
         qrInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {

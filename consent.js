@@ -67,12 +67,14 @@
             + ".tsg-consent-btn:hover{background:#e3fdc0;}"
             + ".tsg-consent-manage{position:fixed;right:1rem;bottom:1rem;z-index:3990;border:2px solid #111;background:#fffdf7;color:#111;box-shadow:4px 4px 0 #111;padding:.45rem .65rem;cursor:pointer;font:600 .65rem 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;}"
             + ".tsg-consent-manage:hover{background:#e3fdc0;}"
-            + "@media (max-width:560px){.tsg-consent-banner{left:.55rem;right:.55rem;bottom:.55rem;padding:.9rem;border-width:2px;box-shadow:0 12px 30px rgba(0,0,0,.35),4px 4px 0 #111;background:#ffffff;}.tsg-consent-btn{width:100%;}.tsg-consent-manage{right:.55rem;bottom:.55rem;}}";
+            + "body.tsg-consent-manage-visible{padding-bottom:4.5rem;}"
+            + "@media (max-width:560px){.tsg-consent-banner{left:.55rem;right:.55rem;bottom:.55rem;padding:.9rem;border-width:2px;box-shadow:0 12px 30px rgba(0,0,0,.35),4px 4px 0 #111;background:#ffffff;}.tsg-consent-btn{width:100%;}.tsg-consent-manage{right:.55rem;bottom:calc(.55rem + env(safe-area-inset-bottom));}body.tsg-consent-manage-visible{padding-bottom:calc(5rem + env(safe-area-inset-bottom));}}";
         document.head.appendChild(style);
     }
 
     function createBanner() {
         ensureStyles();
+        document.body.classList.remove("tsg-consent-manage-visible");
 
         var banner = document.createElement("section");
         banner.className = "tsg-consent-banner";
@@ -109,6 +111,7 @@
     function showManageButton() {
         ensureStyles();
         if (document.querySelector(".tsg-consent-manage")) {
+            document.body.classList.add("tsg-consent-manage-visible");
             return;
         }
         var btn = document.createElement("button");
@@ -122,8 +125,10 @@
             }
             createBanner();
             btn.remove();
+            document.body.classList.remove("tsg-consent-manage-visible");
         });
         document.body.appendChild(btn);
+        document.body.classList.add("tsg-consent-manage-visible");
     }
 
     window.tsgRunAfterConsent = function (callback) {
